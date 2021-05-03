@@ -12,10 +12,27 @@ const btnRoll = document.querySelector(".btn--roll");
 const btnHold = document.querySelector(".btn--hold");
 const diceImage = document.querySelector(".dice");
 
-const cumulatedScores = [0, 0];
-let currentScore = 0;
-let activePlayer = 0;
-let playing = true;
+let currentScore, activePlayer, playing, cumulatedScores;
+
+const init = () => {
+  cumulatedScores = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+  playing = true;
+
+  cumulatedScore0.textContent = 0;
+  cumulatedScore1.textContent = 0;
+  currentScore0.textContent = 0;
+  currentScore1.textContent = 0;
+
+  diceImage.classList.add("hidden");
+  player0Section.classList.add("player--active");
+  player0Section.classList.remove("player--winner");
+  player1Section.classList.remove("player--active");
+  player1Section.classList.remove("player--winner");
+};
+
+init();
 
 const changePlayer = () => {
   currentScore = 0;
@@ -25,25 +42,12 @@ const changePlayer = () => {
   player1Section.classList.toggle("player--active");
 };
 
-const init = () => {
-  cumulatedScore0.textContent = 0;
-  cumulatedScore1.textContent = 0;
-  currentScore0.textContent = 0;
-  currentScore1.textContent = 0;
-  activePlayer = 0;
-  diceImage.classList.add("hidden");
-  player0Section.classList.add("player--active");
-  player1Section.classList.remove("player--active");
-};
-
-init();
-
 btnNew.addEventListener("click", init);
 
 btnRoll.addEventListener("click", function () {
   if (playing) {
     const dice = Math.trunc(Math.random() * 6 + 1);
-    diceImage.src = `dice-${dice}.png`;
+    diceImage.src = `img/dice-${dice}.png`;
     diceImage.classList.remove("hidden");
 
     if (dice !== 1) {
@@ -75,7 +79,7 @@ btnHold.addEventListener("click", function () {
     document.getElementById(`score--${activePlayer}`).textContent =
       cumulatedScores[activePlayer];
 
-    if (cumulatedScores[activePlayer] >= 20) {
+    if (cumulatedScores[activePlayer] >= 100) {
       playing = false;
       document
         .querySelector(`.player--${activePlayer}`)
